@@ -1,0 +1,29 @@
+title: Cr0wn_Gh0ul Blog
+markdown: kramdown
+domain: Cr0wn-Gh0ul.github.io
+url: "https://Cr0wn-Gh0ul.github.io"
+baseurl: ""
+
+# for atom feed
+author:
+  name: Troy Salem
+  email: troy@troysalem.com
+
+plugins:
+  - jemoji
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+collections_dir: all_collections
+collections:
+  posts:
+    output: true
+
+defaults:
+  - scope:
+      path: "_posts"
+    values:
+      layout: "post"
+      permalink: /posts/:title/
+exclude: ["sitemap.xml", "feed.xml", "LICENSE", "README.md"]
