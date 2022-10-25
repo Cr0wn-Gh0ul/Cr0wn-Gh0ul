@@ -2,7 +2,7 @@ title: Cr0wn_Gh0ul Blog
 markdown: kramdown
 domain: Cr0wn-Gh0ul.github.io
 url: "https://Cr0wn-Gh0ul.github.io"
-baseurl: ""
+baseurl: "/Cr0wn-Gh0ul"
 
 # for atom feed
 author:
