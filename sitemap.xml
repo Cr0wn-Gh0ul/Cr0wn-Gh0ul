@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/jekyll-markdown/</loc>
-<lastmod>2021-11-04T00:00:00-04:00</lastmod>
-</url>
-<url>
-<loc>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/test/</loc>
-<lastmod>2022-10-25T00:00:00-04:00</lastmod>
-</url>
-<url>
-<loc>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/</loc>
+<loc>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul//Cr0wn-Gh0ul/</loc>
 </url>
 </urlset>
