@@ -1,0 +1,25 @@
+{
+  "name": "cg-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "predeploy": "JEKYLL_ENV=production bundle exec jekyll build",
+    "deploy": "gh-pages -d _site",
+    "dev": "bundle exec jekyll serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cr0wn-Gh0ul/Cr0wn-Gh0ul.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cr0wn-Gh0ul/Cr0wn-Gh0ul/issues"
+  },
+  "homepage": "https://github.com/Cr0wn-Gh0ul/Cr0wn-Gh0ul#readme",
+  "dependencies": {
+    "gh-pages": "^4.0.0"
+  }
+}
