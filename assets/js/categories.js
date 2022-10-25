@@ -1,4 +1,4 @@
-const categories = { jekyll: [{ url: `/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],Test_Post: [{ url: `/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],first_post: [{ url: `/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],ethereum: [{ url: `/posts/test/`, date: `25 Oct 2022`, title: `Test`},],rant: [{ url: `/posts/test/`, date: `25 Oct 2022`, title: `Test`},], }
+const categories = { jekyll: [{ url: `/Cr0wn-Gh0ul/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],Test_Post: [{ url: `/Cr0wn-Gh0ul/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],first_post: [{ url: `/Cr0wn-Gh0ul/posts/jekyll-markdown/`, date: `04 Nov 2021`, title: `Jekyll Markdown`},],ethereum: [{ url: `/Cr0wn-Gh0ul/posts/test/`, date: `25 Oct 2022`, title: `Test`},],rant: [{ url: `/Cr0wn-Gh0ul/posts/test/`, date: `25 Oct 2022`, title: `Test`},], }
 
 console.log(categories)
 
