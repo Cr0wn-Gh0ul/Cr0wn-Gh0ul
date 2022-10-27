@@ -70,7 +70,7 @@ The ERC-1155 metadata JSON Schema:
 These are a great as a base specification, but they do not allow for extensibility in the future. This leads to the systems that utlize them (i.e marketplaces, games, galleries, etc.) to create their own specifications outside of the standard. As more systems are created with different needs and requirements, the more system specific specifications are created. This leads to a lack of consensus about the metadata standard and what is expected across web3.
 
 One example of system specific NFT metadata can be found on OpenSea, which includes additional fields only utilized by their system and are not included in the JSON Schema of the ERC-721 or ERC-1155 standard.
-![OpenSeaMetadata](/assets/images/os-metadata.png)
+![OpenSeaMetadata](/Cr0wn-Gh0ul/assets/images/os-metadata.png)
 These additions were added into OpenSea early into the their inception and they were one of the few marketplaces in existence at the time. Now there are many other marketplaces and systems that rely on these properties even though they do not officially exist within the standards. As more systems are created and create their own properties, the further away from the ERC specification we get and the harder it is to implement client specific schemas.
 
 ✨**Solution Idea**✨
@@ -84,7 +84,7 @@ By including this into the core specification or as a system specific specificat
 ## 💢 ERC Obsoletion
 An EIP (Ethereum Improvement Proposal) is a way to request for changes to Ethereum. An ERC (Ethereum Request for Comments) is a sub category of EIPs for application-level changes that have been approved and have reach finality.
 We can see the different stages of an EIP below: 
-![EIPLifeCycle](/assets/images/EIP-lifecycle.jpg)
+![EIPLifeCycle](/Cr0wn-Gh0ul/assets/images/EIP-lifecycle.jpg)
 
 ERC-721 & ERC-1155 are both in the final stage which is defined as:
 >Final - This EIP represents the final standard. A Final EIP exists in a state of finality and should only be updated to correct errata and add non-normative clarifications.
