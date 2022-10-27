@@ -1,4 +1,4 @@
-const categories = { NFT: [{ url: `/Cr0wn-Gh0ul/posts/nft-lacking/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],ERC: [{ url: `/Cr0wn-Gh0ul/posts/nft-lacking/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],EIP: [{ url: `/Cr0wn-Gh0ul/posts/nft-lacking/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],Ethereum: [{ url: `/Cr0wn-Gh0ul/posts/nft-lacking/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],Thoughts: [{ url: `/Cr0wn-Gh0ul/posts/nft-lacking/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},], }
+const categories = { NFT: [{ url: `/Cr0wn-Gh0ul/posts/nft-improvements/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],ERC: [{ url: `/Cr0wn-Gh0ul/posts/nft-improvements/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],EIP: [{ url: `/Cr0wn-Gh0ul/posts/nft-improvements/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],Ethereum: [{ url: `/Cr0wn-Gh0ul/posts/nft-improvements/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},],Thoughts: [{ url: `/Cr0wn-Gh0ul/posts/nft-improvements/`, date: `25 Oct 2022`, title: `Improving NFTs and ERCs`},], }
 
 console.log(categories)
 
