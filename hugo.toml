@@ -10,15 +10,8 @@ theme = 'cr0wngh0ul-theme'
   # Theme customization
   lightMode = false  # Set to true for light mode
   showStatus = false  # Show status box on homepage
-  status = 'Building cool stuff...'
   showFeaturedPosts = true  # Show featured posts section
   showRecentPosts = true  # Show recent posts in sidebar
-  
-  # Social links
-  github = 'https://github.com/yourusername'
-  twitter = 'https://twitter.com/yourusername'
-  email = 'your-email@example.com'
-  githubRepo = 'https://github.com/yourusername/your-repo'
   
   # Sidebar
   sidebarBio = "Troy Salem — software engineer. I build software, explore new tech, and write concise notes about what I learn. I also enjoy photography, motorcycles, cooking, baking, and other creative projects."
