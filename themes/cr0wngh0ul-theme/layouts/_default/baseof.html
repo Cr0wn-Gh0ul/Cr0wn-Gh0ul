@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ "/img/ghost-crown.png" | relURL }}">
+    <!-- Open Graph SEO -->
+    <meta property="og:title" content="{{ .Title | default .Site.Title }}" />
+    <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:image" content="{{ "/img/ghost-crown.png" | relURL }}" />
+    <!-- Twitter Card SEO -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ .Title | default .Site.Title }}" />
+    <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+    <meta name="twitter:image" content="{{ "/img/ghost-crown.png" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+    {{ if .Site.Params.customCSS }}
+        {{ range .Site.Params.customCSS }}
+        <link rel="stylesheet" href="{{ . | relURL }}">
+        {{ end }}
+    {{ end }}
+</head>
+<body class="{{ if .Site.Params.lightMode }}light-mode{{ end }}">
+    {{ partial "header.html" . }}
+    <div id="content-wrapper" class="site-wrapper">
+        <main>
+            {{ block "main" . }}{{ end }}
+        </main>
+        {{ if .IsHome }}
+        {{ partial "sidebar.html" . }}
+        {{ end }}
+    </div>
+    {{ partial "footer.html" . }}
+</body>
+</html>

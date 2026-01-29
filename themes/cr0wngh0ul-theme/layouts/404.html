@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="error-404">
+    <div class="ascii-border">
+        <pre style="color: var(--accent-primary); text-align: center;">
+  _  _    ___  _  _   
+ | || |  / _ \| || |  
+ | || |_| | | | || |_ 
+ |__   _| | | |__   _|
+    | | | |_| |  | |  
+    |_|  \___/   |_|  
+        </pre>
+        <h1 style="text-align: center;">Page Not Found</h1>
+        <p style="text-align: center; color: var(--text-secondary);">
+            The page you're looking for doesn't exist or has been moved.
+        </p>
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="{{ "/" | relURL }}" style="color: var(--accent-terminal); font-weight: bold;">← Return Home</a>
+        </p>
+    </div>
+</div>
+{{ end }}

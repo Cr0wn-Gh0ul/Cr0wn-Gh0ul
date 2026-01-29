@@ -1,0 +1,56 @@
+baseURL = 'https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/'
+languageCode = 'en-us'
+title = 'Troy Salem Blog'
+theme = 'cr0wngh0ul-theme'
+
+[params]
+  description = 'A retro-styled Hugo blog with terminal aesthetics'
+  author = 'Troy Salem'
+  
+  # Theme customization
+  lightMode = false  # Set to true for light mode
+  showStatus = false  # Show status box on homepage
+  status = 'Building cool stuff...'
+  showFeaturedPosts = true  # Show featured posts section
+  showRecentPosts = true  # Show recent posts in sidebar
+  
+  # Social links
+  github = 'https://github.com/yourusername'
+  twitter = 'https://twitter.com/yourusername'
+  email = 'your-email@example.com'
+  githubRepo = 'https://github.com/yourusername/your-repo'
+  
+  # Sidebar
+  sidebarBio = "Troy Salem — software engineer. I build software, explore new tech, and write concise notes about what I learn. I also enjoy photography, motorcycles, cooking, baking, and other creative projects."
+  
+  # Custom CSS files (optional)
+  # customCSS = ['css/custom.css']
+
+[menu]
+  [[menu.main]]
+    name = 'Home'
+    url = '/'
+    pageRef = '/'
+    identifier = 'home'
+    weight = 1
+  [[menu.main]]
+    name = 'Posts'
+    url = '/posts/'
+    pageRef = '/posts/'
+    identifier = 'posts'
+    weight = 2
+  [[menu.main]]
+    name = 'Website'
+    url = 'https://troysalem.com/'
+    identifier = 'website'
+    weight = 3
+    
+# Syntax highlighting (optional, for code blocks)
+[markup]
+  [markup.highlight]
+    style = 'github-dark'
+    lineNos = true
+    lineNumbersInTable = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

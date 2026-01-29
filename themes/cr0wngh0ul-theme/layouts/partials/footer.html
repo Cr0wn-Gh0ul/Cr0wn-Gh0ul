@@ -1,0 +1,23 @@
+<footer class="site-footer" style="flex-shrink:0;left:0;right:0;margin:0 auto;padding:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace;font-size:12px;color:#8a8a9c;height:44px;text-align:center;z-index:1000;width:100%;background:none;box-shadow:none;position:relative;">
+    <a href="#" id="scrollTop" style="margin-left:16px;margin-right:auto;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;color:#4ade5e;text-decoration:none;opacity:.6;transition:opacity 0.2s;cursor:pointer;flex-shrink:0;">↑</a>
+    <p style="width:100%;text-align:center;margin:0;">© 2026 Cr0wn_Gh0ul</p>
+    <script>
+    // Scroll to top functionality only
+    document.addEventListener('DOMContentLoaded', function() {
+      const scrollTop = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTop.style.opacity = '1';
+            scrollTop.style.pointerEvents = 'auto';
+        } else {
+            scrollTop.style.opacity = '0.6';
+            scrollTop.style.pointerEvents = 'auto';
+        }
+      });
+      scrollTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+    </script>
+</footer>

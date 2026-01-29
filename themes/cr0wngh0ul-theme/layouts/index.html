@@ -1,0 +1,50 @@
+{{ define "main" }}
+<div class="home">
+    {{ if .Content }}
+    <div class="home-intro">
+        <h1>{{ .Title }}</h1>
+        <div class="content">
+            <span class="ascii-hello">
+██╗  ██╗███████╗██╗     ██╗      ██████╗
+██║  ██║██╔════╝██║     ██║     ██╔═══██╗
+███████║█████╗  ██║     ██║     ██║   ██║
+██╔══██║██╔══╝  ██║     ██║     ██║   ██║
+██║  ██║███████╗███████╗███████╗╚██████╔╝
+╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝
+            </span>
+            <div class="home-bio" style="margin-top: 1.5em; color: var(--text-muted); font-size: 1.1em;">
+My name is Troy Salem, also known as Cr0wn_Gh0ul. I'm a software engineer from Michigan, USA. <br></br>
+I enjoy photography, cats, gaming, motorcycles, cooking, baking, movies, tv shows, and writing. <br></br>
+This is a place to collect my thoughts and share my experiences. <br></br>
+            </div>
+    </div>
+    {{ end }}
+
+    {{ if .Site.Params.showStatus }}
+    <div class="status-box">{{ .Site.Params.status | default "Building..." }}</div>
+    {{ end }}
+
+    <h2>Recent Posts</h2>
+    <ul class="post-list">
+        {{ range first 10 .Site.RegularPages }}
+        <li class="post-item">
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="post-meta">
+                <span class="post-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+                {{ if .ReadingTime }} · {{ .ReadingTime }} min read{{ end }}
+            </div>
+            {{ if .Params.tags }}
+            <div class="tags">
+                {{ range .Params.tags }}
+                <a href="{{ " /tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a>
+                {{ end }}
+            </div>
+            {{ end }}
+            {{ if .Summary }}
+            <div class="summary">{{ .Summary | truncate 150 }}</div>
+            {{ end }}
+        </li>
+        {{ end }}
+    </ul>
+</div>
+{{ end }}

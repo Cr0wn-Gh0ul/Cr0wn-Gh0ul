@@ -1,0 +1,10 @@
+name = 'cr0wngh0ul-theme'
+license = 'MIT'
+description = 'Cr0wn_Gh0ul Hugo theme'
+tags = ['blog', 'minimal', 'clean', 'responsive']
+features = ['responsive', 'blog']
+min_version = '0.120.0'
+
+[author]
+  name = 'Troy Salem'
+  homepage = 'https://troysalem.com'
