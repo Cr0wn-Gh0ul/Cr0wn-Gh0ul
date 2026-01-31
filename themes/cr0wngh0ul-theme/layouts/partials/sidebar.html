@@ -21,7 +21,7 @@
         <h3 class="widget-title">Tags</h3>
         <div class="tags">
             {{ range first 8 .Site.Taxonomies.tags.ByCount }}
-            <a href="{{ .Page.Permalink }}">#{{ .Page.Title }}</a>
+            <a href="{{ .Page.RelPermalink | relURL }}">#{{ .Page.Title }}</a>
             {{ end }}
         </div>
     </div>

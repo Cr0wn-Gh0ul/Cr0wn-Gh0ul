@@ -4,7 +4,7 @@ title = 'Troy Salem Blog'
 theme = 'cr0wngh0ul-theme'
 
 [params]
-  description = 'A retro-styled Hugo blog with terminal aesthetics'
+  description = 'Troy Salem Blog'
   author = 'Troy Salem'
   
   # Theme customization
