@@ -1,49 +1,47 @@
-/* Utility class to center embeds */
-.center-embed {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 2em 0;
-}
-.tiktok-embed {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    color-scheme: dark !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: block !important;
-    max-width: 100% !important;
-    text-align: center !important;
-    
-}
-.tiktok-embed iframe {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color-scheme: dark !important;
-    display: block;
-    margin: 0 auto !important;
-    max-width: 100% !important;
+.mermaid {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  overflow-x: auto;
 }
 
-/* Sidebar section separator */
-.sidebar-separator {
-    border: none;
-    border-top: 1px solid var(--border);
-    opacity: 0.4;
-    margin: 4px 0;
+.mermaid svg {
+  height: auto;
 }
-/* Remove bullets from all lists in sidebar */
-.sidebar ul, .sidebar li, .sidebar ul li {
-    list-style: none !important;
-    list-style-type: none !important;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
+
+/* Clean, consistent list alignment for markdown content and blockquotes */
+.content ul,
+.content ol,
+.custom-blockquote ul,
+.custom-blockquote ol {
+    list-style-position: inside;
 }
+.content li,
+.custom-blockquote li {
+    padding-left: 0;
+}
+
+/* Custom blockquote styling for Hugo markdown > */
+.custom-blockquote {
+    border-left: 2px solid var(--magenta);
+    background: rgba(240, 140, 255, 0.04);
+    padding: 12px;
+    margin: 10px auto;
+    color: var(--text-primary);
+    font-style: normal; 
+    border-radius: 4px;
+    box-shadow: none;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: left;
+}
+.custom-blockquote, p {
+    margin-bottom: 0px !important;
+}
+.custom-blockquote, p:after {
+    margin-bottom: 5px !important;
+}
+
 .sidebar ul li::marker {
     content: '' !important;
     display: none !important;

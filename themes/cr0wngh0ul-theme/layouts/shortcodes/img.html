@@ -1,0 +1,15 @@
+{{- $src := .Get "src" -}}
+{{- $image := resources.Get $src -}}
+
+{{- if $image -}}
+  {{- $resized := $image.Resize (.Get "size" | default "800x") -}}
+  <img src="{{ $resized.RelPermalink }}" 
+       width="{{ $resized.Width }}" 
+       height="{{ $resized.Height }}" 
+       alt="{{ .Get "alt" }}">
+{{- else -}}
+  <div style="border: 2px solid red; padding: 10px; color: red;">
+    <strong>Hugo Error:</strong> Image not found at <code>assets/{{ $src }}</code>. <br>
+    Check if the file exists and the name is spelled exactly (case-sensitive).
+  </div>
+{{- end -}}

@@ -1,17 +1,19 @@
-<footer class="site-footer" style="flex-shrink:0;left:0;right:0;margin:0 auto;padding:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace;font-size:12px;color:#8a8a9c;height:44px;text-align:center;z-index:1000;width:100%;background:none;box-shadow:none;position:relative;">
-    <a href="#" id="scrollTop" style="margin-left:16px;margin-right:auto;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;color:#4ade5e;text-decoration:none;opacity:.6;transition:opacity 0.2s;cursor:pointer;flex-shrink:0;">↑</a>
-    <p style="width:100%;text-align:center;margin:0;">© 2026 Cr0wn_Gh0ul</p>
-    <script>
+<footer class="site-footer"
+  style="flex-shrink:0;left:0;right:0;margin:0 auto;padding:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace;font-size:12px;color:#8a8a9c;height:44px;text-align:center;z-index:1000;width:100%;background:none;box-shadow:none;position:relative;">
+  <a href="#" id="scrollTop"
+    style="margin-left:16px;margin-right:auto;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;color:#4ade5e;text-decoration:none;opacity:.6;transition:opacity 0.2s;cursor:pointer;flex-shrink:0;">↑</a>
+  <p style="width:100%;text-align:center;margin:0;">© 2026 Cr0wn_Gh0ul</p>
+  <script>
     // Scroll to top functionality only
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const scrollTop = document.getElementById('scrollTop');
       window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
-            scrollTop.style.opacity = '1';
-            scrollTop.style.pointerEvents = 'auto';
+          scrollTop.style.opacity = '1';
+          scrollTop.style.pointerEvents = 'auto';
         } else {
-            scrollTop.style.opacity = '0.6';
-            scrollTop.style.pointerEvents = 'auto';
+          scrollTop.style.opacity = '0.6';
+          scrollTop.style.pointerEvents = 'auto';
         }
       });
       scrollTop.addEventListener('click', (e) => {
@@ -19,5 +21,104 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
-    </script>
+  </script>
+  {{ if .Store.Get "hasMermaid" }}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.2/+esm'
+
+function getMermaidConfigFromTheme() {
+  const styles = getComputedStyle(document.documentElement);
+  const cssVar = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+
+  const backgroundPrimary = cssVar("--bg-primary", "#1b1b1f");
+  const backgroundSecondary = cssVar("--bg-secondary", "#09090a");
+
+  const blue = cssVar("--blue", "#5cb8ff");
+  const red = cssVar("--red", "#ff7070");
+  const green = cssVar("--green", "#4ade5e");
+
+  const fontMono = cssVar("--font-mono", "JetBrains Mono, SF Mono, Consolas, monospace");
+
+  return {
+    theme: "base",
+    themeVariables: {
+      darkMode: true,
+      fontFamily: fontMono,
+      fontSize: "14px",
+      background: backgroundPrimary,
+
+      primaryColor: blue,
+      primaryTextColor: "#000",
+
+      lineColor: red,
+      textColor: green,
+      edgeLabelBackground: backgroundSecondary,
+      titleColor: green,
+    },
+
+    themeCSS: `
+      /* Nodes (flowchart + generic) */
+      .node rect, .node polygon, .node circle, .node path {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .node text, .node tspan {
+        fill: #000 !important;
+      }
+
+      /* State diagram nodes */
+      .statediagram-state rect, .stateGroup rect {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .statediagram-state text, .statediagram-state tspan,
+      .stateGroup text, .stateGroup tspan {
+        fill: #000 !important;
+      }
+
+      /* Arrows / edges */
+      .edgePath path {
+        stroke: ${red} !important;
+        stroke-width: 1.75px !important;
+      }
+      marker path {
+        stroke: ${red} !important;
+        fill: ${red} !important;
+      }
+
+      /* Edge labels (arrow text) */
+      .edgeLabel rect {
+        fill: ${backgroundSecondary} !important;
+        stroke: ${red} !important;
+        stroke-width: 1px !important;
+      }
+      .edgeLabel text, .edgeLabel tspan,
+      .label text, .label tspan {
+        fill: ${green} !important;
+      }
+    `,
+  };
+}
+
+    function renderAllMermaid() {
+      const mermaidConfig = getMermaidConfigFromTheme();
+      mermaid.initialize({
+        startOnLoad: true,
+        ...mermaidConfig,
+      });
+      mermaid.run({ querySelector: ".mermaid" });
+      document.querySelectorAll('pre.mermaid, .mermaid').forEach(block => {
+        mermaid.run({ nodes: [block] });
+      });
+    }
+    renderAllMermaid();
+    // Observe DOM changes to always re-render Mermaid on theme/content/code change
+    const observer = new MutationObserver(() => {
+      renderAllMermaid();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+  {{ end }}
 </footer>

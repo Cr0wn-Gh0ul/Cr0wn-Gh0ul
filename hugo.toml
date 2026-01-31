@@ -47,3 +47,8 @@ theme = 'cr0wngh0ul-theme'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true
+    [markup.goldmark.extensions.typographer]
+      disable = true
