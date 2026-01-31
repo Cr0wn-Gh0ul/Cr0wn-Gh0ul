@@ -10,9 +10,12 @@
         {{ if .Params.tags }}
         <div class="tags">
             {{ range .Params.tags }}
-            {{ $tagPage := $.Site.GetPage (print "tags/" (. | urlize)) "/"}}
+            {{ $tagPage := $.Site.GetPage (print "tags/" (. | urlize)) "/" }}
             <a href="{{ $tagPage.RelPermalink | relURL }}">#{{ . }}</a>
             {{ end }}
+            </div>  
+        {{ end }}
+    </header>
     
     <div class="content">
         {{ .Content }}
