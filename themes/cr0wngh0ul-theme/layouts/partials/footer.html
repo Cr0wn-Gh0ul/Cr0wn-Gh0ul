@@ -95,8 +95,11 @@ function getMermaidConfigFromTheme() {
         stroke-width: 1px !important;
       }
       .edgeLabel text, .edgeLabel tspan,
+      .edgeLabel span, .edgeLabel p,
+      .edgeLabel foreignObject *,
       .label text, .label tspan {
         fill: ${green} !important;
+        color: ${green} !important;
       }
     `,
   };
