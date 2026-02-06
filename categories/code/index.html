@@ -75,10 +75,25 @@
     <h1>Code: Code</h1>
     
     <p class="taxonomy-info">
-        <span class="terminal-prompt"></span>Found 1 post with this tag
+        <span class="terminal-prompt"></span>Found 4 posts with this tag
     </p>
     
     <ul class="post-list">
+        
+        <li class="post-item">
+            <h2><a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/">OpenRouter: Deep Dive</a></h2>
+            <div class="post-meta">
+                <span class="post-date">February 6, 2026</span>
+                
+                <span> :: 8 min read</span>
+                
+            </div>
+            
+            <div class="summary">
+                Why? I have been jumping between AI models a lot lately. Claude for some things. GPT for others. Gemini when I want to see if Google figured it out yet. Llama when I want something local-ish. And every time I switch, it is a different SDK, different auth, different request shape, different &quot;why is this field named slightly differently&quot; moment. At some point I found OpenRouter and ended up going pretty deep.
+            </div>
+            
+        </li>
         
         <li class="post-item">
             <h2><a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-01-06/">BreakerKit: Circuit Breaker Pattern </a></h2>
@@ -93,6 +108,36 @@
                 Overview Every app eventually meets The Outside World. The Outside World is where &quot;fetch&quot; becomes:
 an API that is slow sometimes a dependency that is down right now a vendor that rate limits you for breathing too loudly a database that is fine until it is not
 When that happens, most systems fail in the dumbest possible way: they keep trying, they keep waiting, they pile up threads/promises/jobs, and then they fall over from the weight.
+            </div>
+            
+        </li>
+        
+        <li class="post-item">
+            <h2><a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-16/">PhaseState: Minimal State Machine</a></h2>
+            <div class="post-meta">
+                <span class="post-date">December 16, 2025</span>
+                
+                <span> :: 4 min read</span>
+                
+            </div>
+            
+            <div class="summary">
+                State machines are one of those patterns that sound academic until you actually need one. A form wizard with validation between steps. A connection that can be connecting, connected, disconnecting, or error. A game character that can be idle, walking, jumping, or dead, and dead should not transition to jumping. Every time I reach for a state machine library, I end up fighting it. Too much boilerplate, weird DSL, or a 50KB bundle for something that should be simple.
+            </div>
+            
+        </li>
+        
+        <li class="post-item">
+            <h2><a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/">RouteBus: Type-Safe Event Bus</a></h2>
+            <div class="post-meta">
+                <span class="post-date">November 12, 2025</span>
+                
+                <span> :: 4 min read</span>
+                
+            </div>
+            
+            <div class="summary">
+                I keep writing the same pub/sub code in every project. A thing happens. Other things need to know. So I create an event emitter. Then I realize I want type safety. Then I need it to work across browser tabs. Then across services. Then I am maintaining three different implementations that do almost the same thing. So I built RouteBus to stop doing that. The idea One event bus interface. Pluggable transports underneath.
             </div>
             
         </li>

@@ -6,14 +6,35 @@
     <description>Recent content in Code on Troy Salem Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/categories/code/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenRouter: Deep Dive</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/</link>
+      <pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/</guid>
+      <description>Why? I have been jumping between AI models a lot lately. Claude for some things. GPT for others. Gemini when I want to see if Google figured it out yet. Llama when I want something local-ish. And every time I switch, it is a different SDK, different auth, different request shape, different &amp;quot;why is this field named slightly differently&amp;quot; moment. At some point I found OpenRouter and ended up going pretty deep.</description>
+    </item>
     <item>
       <title>BreakerKit: Circuit Breaker Pattern </title>
       <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-01-06/</link>
       <pubDate>Tue, 06 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-01-06/</guid>
       <description>Overview Every app eventually meets The Outside World. The Outside World is where &amp;quot;fetch&amp;quot; becomes:&#xA;an API that is slow sometimes a dependency that is down right now a vendor that rate limits you for breathing too loudly a database that is fine until it is not&#xA;When that happens, most systems fail in the dumbest possible way: they keep trying, they keep waiting, they pile up threads/promises/jobs, and then they fall over from the weight.</description>
+    </item>
+    <item>
+      <title>PhaseState: Minimal State Machine</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-16/</link>
+      <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-16/</guid>
+      <description>State machines are one of those patterns that sound academic until you actually need one. A form wizard with validation between steps. A connection that can be connecting, connected, disconnecting, or error. A game character that can be idle, walking, jumping, or dead, and dead should not transition to jumping. Every time I reach for a state machine library, I end up fighting it. Too much boilerplate, weird DSL, or a 50KB bundle for something that should be simple.</description>
+    </item>
+    <item>
+      <title>RouteBus: Type-Safe Event Bus</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/</guid>
+      <description>I keep writing the same pub/sub code in every project. A thing happens. Other things need to know. So I create an event emitter. Then I realize I want type safety. Then I need it to work across browser tabs. Then across services. Then I am maintaining three different implementations that do almost the same thing. So I built RouteBus to stop doing that. The idea One event bus interface. Pluggable transports underneath.</description>
     </item>
   </channel>
 </rss>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troy Salem Blog</title>
+    <meta name="description" content="Troy Salem Blog">
+    <meta name="author" content="Troy Salem">
+    
+    <link rel="icon" type="image/png" href="/Cr0wn-Gh0ul/img/ghost-crown.png">
+    
+    <meta property="og:title" content="OpenRouter: Deep Dive" />
+    <meta property="og:description" content="Troy Salem Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/" />
+    <meta property="og:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenRouter: Deep Dive" />
+    <meta name="twitter:description" content="Troy Salem Blog" />
+    <meta name="twitter:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
+    <link rel="stylesheet" href="/Cr0wn-Gh0ul/css/style.css">
+    
+</head>
+<body class="">
+    <header class="site-header">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=JetBrains+Mono:wght@600&display=swap"
+        rel="stylesheet">
+    <nav class="site-nav">
+        <a href="/" class="site-title">Troy Salem Blog</a>
+        <ul class="nav-menu">
+            
+            <li>
+                
+                
+                <a href="/Cr0wn-Gh0ul/" >
+                    ./home
+                    
+                </a>
+            </li>
+            
+            <li>
+                
+                
+                <a href="/Cr0wn-Gh0ul/posts/" >
+                    ./posts
+                    
+                </a>
+            </li>
+            
+            <li>
+                
+                
+                <a href="https://troysalem.com/" >
+                    ./website
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor"
+                        style="width:1em;height:1em;vertical-align:baseline;position:relative;top:0.13em;margin-left:-0.3em;">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                    
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <div id="content-wrapper" class="site-wrapper">
+        <main>
+            
+<article class="single-post">
+    <header>
+        <h1>OpenRouter: Deep Dive</h1>
+        <div class="post-meta">
+            February 06, 2026
+             · T. Salem
+             · 8 min read
+        </div>
+        
+        <div class="tags">
+            
+            
+            <a href="/Cr0wn-Gh0ul/tags/code/">#code</a>
+            
+            
+            <a href="/Cr0wn-Gh0ul/tags/programming/">#programming</a>
+            
+            </div>  
+        
+    </header>
+    
+    <div class="content">
+        <h2 id="why">Why?</h2>
+<p>I have been jumping between AI models a lot lately.
+<br></br></p>
+<p>Claude for some things. GPT for others. Gemini when I want to see if Google figured it out yet. Llama when I want something local-ish. And every time I switch, it is a different SDK, different auth, different request shape, different &quot;why is this field named slightly differently&quot; moment.
+<br></br></p>
+<p>At some point I found <a href="https://openrouter.ai/">OpenRouter</a> and ended up going pretty deep. Deep enough that I built a terminal client for it. This is what I learned along the way.
+<br></br></p>
+<hr>
+<h2 id="what-is-it">What is it?</h2>
+<p>One API. One key. 300+ models from 60+ providers behind it.
+<br></br></p>
+<p>OpenRouter has its own SDK. Install it, give it your key, pick a model.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> { OpenRouter } <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;@openrouter/sdk&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> openRouter <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> OpenRouter({
+</span></span><span style="display:flex;"><span>  apiKey: <span style="color:#ff7b72">process.env.OPENROUTER_API_KEY</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> completion <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">await</span> openRouter.chat.send({
+</span></span><span style="display:flex;"><span>  model<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;anthropic/claude-sonnet-4&#39;</span>,
+</span></span><span style="display:flex;"><span>  messages<span style="color:#ff7b72;font-weight:bold">:</span> [{ role<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;user&#39;</span>, content<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;hello&#39;</span> }],
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>That is Claude. Want Gemini? Change the string. Want Llama? Change it again. Same everything else.
+<br></br></p>
+<p>Simple enough. But the interesting part is what happens underneath.
+<br></br></p>
+<hr>
+<h2 id="it-is-a-router-not-a-proxy">It is a router, not a proxy</h2>
+<p>I expected OpenRouter to just forward requests. It does more than that.
+<br></br></p>
+<p>When a request comes in, it picks which provider to hit based on real-time health data. If a provider is slow or erroring, traffic shifts away. If it dies completely, you fail over automatically. No retry logic on your side, no code changes.
+<br></br></p>
+<div class="mermaid">
+  flowchart LR
+  A[Request] --> B[OpenRouter]
+  B --> C{Healthy?}
+  C -->|Yes| D[Provider A]
+  C -->|No| E[Provider B]
+  D --> F[Response]
+  E --> F
+</div>
+<p><br></br></p>
+<p>The default strategy weighs providers by price (cheaper = more likely) but deprioritizes anyone flaky in the last 30 seconds. Cost optimization and reliability, same decision.
+<br></br></p>
+<p>This is the kind of thing you normally build yourself. Circuit breakers, health checks, fallback chains. Here it just happens.
+<br></br></p>
+<hr>
+<h2 id="the-knobs">The knobs</h2>
+<p>Once I understood the routing, I started poking at the overrides.
+<br></br></p>
+<p>Sort by throughput instead of price:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>provider<span style="color:#ff7b72;font-weight:bold">:</span> { sort<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;throughput&#39;</span> }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Pin to specific providers:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>provider<span style="color:#ff7b72;font-weight:bold">:</span> { order<span style="color:#ff7b72;font-weight:bold">:</span> [<span style="color:#a5d6ff">&#39;together&#39;</span>, <span style="color:#a5d6ff">&#39;deepinfra&#39;</span>], allowFallbacks: <span style="color:#ff7b72">false</span> }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Exclude providers that keep your data:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>provider<span style="color:#ff7b72;font-weight:bold">:</span> { dataCollection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;deny&#39;</span> }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Set latency thresholds with percentile cutoffs. &quot;Only route to providers where p90 latency is under 2 seconds.&quot; That kind of thing.
+<br></br></p>
+<p>Most of these I will never touch. But knowing they exist changes how I think about it. It is not just &quot;model access&quot;, it is a routing layer I can tune when I need to.
+<br></br></p>
+<hr>
+<h2 id="structured-outputs">Structured outputs</h2>
+<p>I hate parsing LLM responses. &quot;Here is the JSON you asked for:&quot; followed by markdown code fences. Or worse, mostly-valid JSON with a trailing comma that breaks everything.
+<br></br></p>
+<p>OpenRouter supports strict JSON schema validation. Define the shape, get that shape back.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">const</span> response <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">await</span> openRouter.chat.send({
+</span></span><span style="display:flex;"><span>  model<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;anthropic/claude-sonnet-4&#39;</span>,
+</span></span><span style="display:flex;"><span>  messages<span style="color:#ff7b72;font-weight:bold">:</span> [{ role<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;user&#39;</span>, content<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;Extract the entities&#39;</span> }],
+</span></span><span style="display:flex;"><span>  responseFormat<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;json_schema&#39;</span>,
+</span></span><span style="display:flex;"><span>    jsonSchema<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;entities&#39;</span>,
+</span></span><span style="display:flex;"><span>      strict: <span style="color:#ff7b72">true</span>,
+</span></span><span style="display:flex;"><span>      schema<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;object&#39;</span>,
+</span></span><span style="display:flex;"><span>        properties<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>          people<span style="color:#ff7b72;font-weight:bold">:</span> { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;array&#39;</span>, items<span style="color:#ff7b72;font-weight:bold">:</span> { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;string&#39;</span> } },
+</span></span><span style="display:flex;"><span>          places<span style="color:#ff7b72;font-weight:bold">:</span> { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;array&#39;</span>, items<span style="color:#ff7b72;font-weight:bold">:</span> { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;string&#39;</span> } },
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        required<span style="color:#ff7b72;font-weight:bold">:</span> [<span style="color:#a5d6ff">&#39;people&#39;</span>, <span style="color:#a5d6ff">&#39;places&#39;</span>],
+</span></span><span style="display:flex;"><span>        additionalProperties: <span style="color:#ff7b72">false</span>,
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Set <code>strict: true</code> and the model has to match the schema exactly. No hallucinated fields, no missing required properties. It works across GPT, Claude, Gemini, most open-source models.
+<br></br></p>
+<p>For the models that occasionally still mess up the formatting, there is a response healing plugin that automatically fixes malformed JSON before it reaches you.
+<br></br></p>
+<hr>
+<h2 id="prompt-caching">Prompt caching</h2>
+<p>This one surprised me. Prompt caching is not new, but the way OpenRouter handles it across providers is.
+<br></br></p>
+<p>For providers with automatic caching (OpenAI, DeepSeek, Gemini), it just works. Same prompt prefix, cheaper tokens. No config.
+<br></br></p>
+<p>For Anthropic, you mark what to cache:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  role<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;system&#39;</span>,
+</span></span><span style="display:flex;"><span>  content<span style="color:#ff7b72;font-weight:bold">:</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;text&#39;</span>, text<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;You are an expert on this codebase:&#39;</span> },
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;text&#39;</span>, 
+</span></span><span style="display:flex;"><span>      text: <span style="color:#ff7b72">HUGE_CODEBASE_DUMP</span>,
+</span></span><span style="display:flex;"><span>      cache_control<span style="color:#ff7b72;font-weight:bold">:</span> { <span style="color:#ff7b72">type</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;ephemeral&#39;</span> }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Cache writes cost a bit more. Cache reads cost 90% less. For long conversations with a big system prompt, the savings add up fast.
+<br></br></p>
+<p>The clever part: OpenRouter tries to keep routing to the same provider when you have a warm cache. If that provider goes down, you fail over and rebuild the cache elsewhere. Invisible.
+<br></br></p>
+<p>Every response tells you exactly what happened:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>usage<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>  prompt_tokens: <span style="color:#ff7b72">10339</span>,
+</span></span><span style="display:flex;"><span>  prompt_tokens_details<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>    cached_tokens: <span style="color:#ff7b72">10318</span>,  <span style="color:#8b949e;font-style:italic">// cache hit
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    cache_write_tokens: <span style="color:#ff7b72">0</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<hr>
+<h2 id="web-search-built-in">Web search built in</h2>
+<p>Some prompts need current information. &quot;What happened yesterday&quot; does not work with a model trained six months ago.
+<br></br></p>
+<p>OpenRouter has a web search plugin. Append <code>:online</code> to any model:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>model<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;anthropic/claude-sonnet-4:online&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Or configure it explicitly:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>plugins<span style="color:#ff7b72;font-weight:bold">:</span> [{
+</span></span><span style="display:flex;"><span>  id<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;web&#39;</span>,
+</span></span><span style="display:flex;"><span>  max_results: <span style="color:#ff7b72">5</span>,
+</span></span><span style="display:flex;"><span>  engine<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;native&#39;</span>  <span style="color:#8b949e;font-style:italic">// or &#39;exa&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>}]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>For Claude, GPT, and Perplexity models, it uses their native search. For everything else, it falls back to Exa. Either way, same interface.
+<br></br></p>
+<p>The response includes citations with URLs, so you can trace where the information came from. Costs a few cents per request on top of the normal token costs.
+<br></br></p>
+<hr>
+<h2 id="context-overflow-handling">Context overflow handling</h2>
+<p>Long conversations eventually hit the context limit. Usually that means truncating history or crashing.
+<br></br></p>
+<p>OpenRouter has a <code>middle-out</code> transform that compresses prompts automatically:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>transforms<span style="color:#ff7b72;font-weight:bold">:</span> [<span style="color:#a5d6ff">&#39;middle-out&#39;</span>]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>It removes messages from the middle of the conversation, keeping the beginning (system prompt, initial context) and the end (recent messages). Based on the research that LLMs pay less attention to the middle anyway.
+<br></br></p>
+<p>For models with 8k context or less, this is enabled by default. For larger models, you opt in. Not perfect recall, but better than failing.
+<br></br></p>
+<hr>
+<h2 id="tool-calling-that-actually-works">Tool calling that actually works</h2>
+<p>Every AI API &quot;supports&quot; tools now. But they all do it slightly differently, and half the time you hit a provider that silently ignores them or returns them in some weird shape.
+<br></br></p>
+<p>OpenRouter normalizes this. Same schema regardless of model. And when you include <code>tools</code> in your request, it only routes to providers that actually support them. No silent failures.
+<br></br></p>
+<div class="mermaid">
+  sequenceDiagram
+  You->>OpenRouter: message + tools
+  OpenRouter->>Model: routed
+  loop until done
+    Model-->>OpenRouter: tool_calls
+    OpenRouter-->>You: tool_calls
+    Note over You: execute locally
+    You->>OpenRouter: results
+    OpenRouter->>Model: continue
+  end
+  Model-->>You: final response
+</div>
+<p><br></br></p>
+<p>Send tools, get back a tool call, execute it yourself, send results, get final answer. Now it works the same way across Claude, GPT, Gemini, Llama, whatever.
+<br></br></p>
+<hr>
+<h2 id="usage-accounting">Usage accounting</h2>
+<p>Every response includes a <code>usage</code> object. Token counts, costs, caching stats, reasoning tokens if the model uses them.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>usage<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>  prompt_tokens: <span style="color:#ff7b72">194</span>,
+</span></span><span style="display:flex;"><span>  completion_tokens: <span style="color:#ff7b72">87</span>,
+</span></span><span style="display:flex;"><span>  total_tokens: <span style="color:#ff7b72">281</span>,
+</span></span><span style="display:flex;"><span>  cost: <span style="color:#ff7b72">0.00042</span>,
+</span></span><span style="display:flex;"><span>  prompt_tokens_details<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>    cached_tokens: <span style="color:#ff7b72">150</span>,
+</span></span><span style="display:flex;"><span>    cache_write_tokens: <span style="color:#ff7b72">0</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  completion_tokens_details<span style="color:#ff7b72;font-weight:bold">:</span> {
+</span></span><span style="display:flex;"><span>    reasoning_tokens: <span style="color:#ff7b72">0</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>No separate API call to check costs. No waiting for a dashboard to update. It is right there in the response.
+<br></br></p>
+<p>For streaming, the usage comes in the final chunk. For async auditing, you can also fetch it later using the generation ID. I used this to build the cost tracking in my terminal client without any external lookups.
+<br></br></p>
+<hr>
+<h2 id="i-built-a-thing">I built a thing</h2>
+<p>After enough time in the docs, I wanted to actually use this from my terminal. Not a web UI, not a notebook. Just a shell I could open, pick a model, and start working.
+<br></br></p>
+<p>So I built <a href="https://github.com/Cr0wn-Gh0ul/OpenRouter-Terminal">OpenRouter Terminal</a>.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g openrouter-terminal
+</span></span><span style="display:flex;"><span>openrouter
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>It is a CLI that wraps OpenRouter into an interactive chat with some extras:
+<br></br></p>
+<ul>
+<li><strong>Model switching.</strong> <code>model anthropic/claude-sonnet-4</code> and you are there.</li>
+<li><strong>File context.</strong> <code>context src/</code> and now the AI knows what you are working on.</li>
+<li><strong>File editing with undo.</strong> The AI can read, write, and edit files. Every change is tracked. One command to revert.</li>
+<li><strong>Custom tools.</strong> Drop a JS module, load it, and the AI can call it. Same function calling flow, wired into a loop.</li>
+<li><strong>Session branching.</strong> Go back to any point in the conversation and take a different path. Like git for chat history.</li>
+<li><strong>Cost tracking.</strong> Every message shows tokens and cost. No dashboard required.
+The undo system was the thing I cared about most. If an AI is touching my files, I need a quick way back.
+<br></br></li>
+</ul>
+<hr>
+<h2 id="what-stuck-with-me">What stuck with me</h2>
+<p><strong>The routing is the product.</strong> OpenRouter is not hosting models. Anthropic and Google are doing that. OpenRouter's job is deciding which provider to hit, when to fail over, how to balance cost and speed. That decision layer is harder than it looks.
+<br></br></p>
+<p><strong>Structured outputs change how you architect.</strong> When you can trust the response shape, you stop writing defensive parsing code. You define a schema, get valid JSON, move on. The code gets smaller.
+<br></br></p>
+<p><strong>Caching is invisible until you need it.</strong> I did not think about prompt caching until I started doing multi-turn conversations with big system prompts. Suddenly 90% cheaper reads matter. And not having to manage it myself matters more.
+<br></br></p>
+<p><strong>Tool calling is where the leverage is.</strong> Text in, text out is fine. But the model deciding <em>what</em> to do while you decide <em>how</em> to do it is the difference between a chatbot and something that can actually change things.
+<br></br></p>
+<p><strong>Streaming is non-negotiable.</strong> Waiting for a full response from a big model is miserable. OpenRouter streams across providers, which made the terminal client feel responsive.
+<br></br></p>
+<p><strong>Cost visibility matters.</strong> Bouncing across providers with different pricing, you want to know what each message costs. OpenRouter gives you that in the response. I surfaced it in the CLI because I wanted to see it without opening a browser.
+<br></br></p>
+<p><strong>The abstraction layer is worth it.</strong> I could wire up each provider directly. I have done it before. But then I am maintaining auth for each one, handling their different error formats, building my own fallback logic. OpenRouter is the &quot;I do not want to think about this&quot; layer, and that is exactly what I wanted.
+<br></br></p>
+<hr>
+<h2 id="links">Links</h2>
+<p>OpenRouter: <a href="https://openrouter.ai/">https://openrouter.ai/</a><br>
+OpenRouter Terminal: <a href="https://github.com/Cr0wn-Gh0ul/OpenRouter-Terminal">https://github.com/Cr0wn-Gh0ul/OpenRouter-Terminal</a></p>
+
+    </div>
+    
+    
+    <nav class="post-navigation" style="display: flex; justify-content: space-between; gap: 2em; margin-top: 2em;">
+        <div class="nav-prev">
+            
+            ← <a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-01-06/">BreakerKit: Circuit Breaker Pattern </a>
+            
+        </div>
+        <div class="nav-next" style="margin-left:auto;">
+            
+        </div>
+    </nav>
+    
+</article>
+
+        </main>
+        
+    </div>
+    <footer class="site-footer"
+  style="flex-shrink:0;left:0;right:0;margin:0 auto;padding:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace;font-size:12px;color:#8a8a9c;height:44px;text-align:center;z-index:1000;width:100%;background:none;box-shadow:none;position:relative;">
+  <a href="#" id="scrollTop"
+    style="margin-left:16px;margin-right:auto;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;color:#4ade5e;text-decoration:none;opacity:.6;transition:opacity 0.2s;cursor:pointer;flex-shrink:0;">↑</a>
+  <p style="width:100%;text-align:center;margin:0;">© 2026 Cr0wn_Gh0ul</p>
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      const scrollTop = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          scrollTop.style.opacity = '1';
+          scrollTop.style.pointerEvents = 'auto';
+        } else {
+          scrollTop.style.opacity = '0.6';
+          scrollTop.style.pointerEvents = 'auto';
+        }
+      });
+      scrollTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.2/+esm'
+
+function getMermaidConfigFromTheme() {
+  const styles = getComputedStyle(document.documentElement);
+  const cssVar = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+
+  const backgroundPrimary = cssVar("--bg-primary", "#1b1b1f");
+  const backgroundSecondary = cssVar("--bg-secondary", "#09090a");
+
+  const blue = cssVar("--blue", "#5cb8ff");
+  const red = cssVar("--red", "#ff7070");
+  const green = cssVar("--green", "#4ade5e");
+
+  const fontMono = cssVar("--font-mono", "JetBrains Mono, SF Mono, Consolas, monospace");
+
+  return {
+    theme: "base",
+    themeVariables: {
+      darkMode: true,
+      fontFamily: fontMono,
+      fontSize: "14px",
+      background: backgroundPrimary,
+
+      primaryColor: blue,
+      primaryTextColor: "#000",
+
+      lineColor: red,
+      textColor: green,
+      edgeLabelBackground: backgroundSecondary,
+      titleColor: green,
+    },
+
+    themeCSS: `
+      /* Nodes (flowchart + generic) */
+      .node rect, .node polygon, .node circle, .node path {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .node text, .node tspan {
+        fill: #000 !important;
+      }
+
+      /* State diagram nodes */
+      .statediagram-state rect, .stateGroup rect {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .statediagram-state text, .statediagram-state tspan,
+      .stateGroup text, .stateGroup tspan {
+        fill: #000 !important;
+      }
+
+      /* Arrows / edges */
+      .edgePath path {
+        stroke: ${red} !important;
+        stroke-width: 1.75px !important;
+      }
+      marker path {
+        stroke: ${red} !important;
+        fill: ${red} !important;
+      }
+
+      /* Edge labels (arrow text) */
+      .edgeLabel rect {
+        fill: ${backgroundSecondary} !important;
+        stroke: ${red} !important;
+        stroke-width: 1px !important;
+      }
+      .edgeLabel text, .edgeLabel tspan,
+      .edgeLabel span, .edgeLabel p,
+      .edgeLabel foreignObject *,
+      .label text, .label tspan {
+        fill: ${green} !important;
+        color: ${green} !important;
+      }
+    `,
+  };
+}
+
+    function renderAllMermaid() {
+      const mermaidConfig = getMermaidConfigFromTheme();
+      mermaid.initialize({
+        startOnLoad: true,
+        ...mermaidConfig,
+      });
+      mermaid.run({ querySelector: ".mermaid" });
+      document.querySelectorAll('pre.mermaid, .mermaid').forEach(block => {
+        mermaid.run({ nodes: [block] });
+      });
+    }
+    renderAllMermaid();
+    
+    const observer = new MutationObserver(() => {
+      renderAllMermaid();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+  
+</footer>
+</body>
+</html>
+

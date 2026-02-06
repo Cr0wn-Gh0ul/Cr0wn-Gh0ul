@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troy Salem Blog</title>
+    <meta name="description" content="Troy Salem Blog">
+    <meta name="author" content="Troy Salem">
+    
+    <link rel="icon" type="image/png" href="/Cr0wn-Gh0ul/img/ghost-crown.png">
+    
+    <meta property="og:title" content="RouteBus: Type-Safe Event Bus" />
+    <meta property="og:description" content="Troy Salem Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/" />
+    <meta property="og:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RouteBus: Type-Safe Event Bus" />
+    <meta name="twitter:description" content="Troy Salem Blog" />
+    <meta name="twitter:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
+    <link rel="stylesheet" href="/Cr0wn-Gh0ul/css/style.css">
+    
+</head>
+<body class="">
+    <header class="site-header">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=JetBrains+Mono:wght@600&display=swap"
+        rel="stylesheet">
+    <nav class="site-nav">
+        <a href="/" class="site-title">Troy Salem Blog</a>
+        <ul class="nav-menu">
+            
+            <li>
+                
+                
+                <a href="/Cr0wn-Gh0ul/" >
+                    ./home
+                    
+                </a>
+            </li>
+            
+            <li>
+                
+                
+                <a href="/Cr0wn-Gh0ul/posts/" >
+                    ./posts
+                    
+                </a>
+            </li>
+            
+            <li>
+                
+                
+                <a href="https://troysalem.com/" >
+                    ./website
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor"
+                        style="width:1em;height:1em;vertical-align:baseline;position:relative;top:0.13em;margin-left:-0.3em;">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                    
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <div id="content-wrapper" class="site-wrapper">
+        <main>
+            
+<article class="single-post">
+    <header>
+        <h1>RouteBus: Type-Safe Event Bus</h1>
+        <div class="post-meta">
+            November 12, 2025
+             · T. Salem
+             · 4 min read
+        </div>
+        
+        <div class="tags">
+            
+            
+            <a href="/Cr0wn-Gh0ul/tags/code/">#code</a>
+            
+            
+            <a href="/Cr0wn-Gh0ul/tags/programming/">#programming</a>
+            
+            </div>  
+        
+    </header>
+    
+    <div class="content">
+        <p>I keep writing the same pub/sub code in every project.
+<br></br></p>
+<p>A thing happens. Other things need to know. So I create an event emitter. Then I realize I want type safety. Then I need it to work across browser tabs. Then across services. Then I am maintaining three different implementations that do almost the same thing.
+<br></br></p>
+<p>So I built <a href="https://github.com/Cr0wn-Gh0ul/RouteBus">RouteBus</a> to stop doing that.
+<br></br></p>
+<hr>
+<h2 id="the-idea">The idea</h2>
+<p>One event bus interface. Pluggable transports underneath. Start simple, scale up without rewriting code.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> { createRouteBus } <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;routebus&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">type</span> AppEvents <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a5d6ff">&#34;chat:message&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> { id: <span style="color:#ff7b72">string</span>; text: <span style="color:#ff7b72">string</span>; <span style="color:#ff7b72">from</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">string</span> };
+</span></span><span style="display:flex;"><span>  <span style="color:#a5d6ff">&#34;user:login&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> { userId: <span style="color:#ff7b72">string</span> };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> bus <span style="color:#ff7b72;font-weight:bold">=</span> createRouteBus&lt;<span style="color:#7ee787">AppEvents</span>&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bus.on(<span style="color:#a5d6ff">&#34;chat:message&#34;</span>, (payload) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#a5d6ff">`</span><span style="color:#a5d6ff">${</span>payload.<span style="color:#ff7b72">from</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">: </span><span style="color:#a5d6ff">${</span>payload.text<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">`</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bus.emit(<span style="color:#a5d6ff">&#34;chat:message&#34;</span>, {
+</span></span><span style="display:flex;"><span>  id<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>  text<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Hello!&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">from</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Alice&#34;</span>
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>TypeScript autocompletes the event names. Try to emit with the wrong payload type and you get a compile error, not a runtime bug.
+<br></br></p>
+<hr>
+<h2 id="why-transports-matter">Why transports matter</h2>
+<p>The default transport is in-memory. Events stay in the current process. Fine for most things.
+<br></br></p>
+<p>But then you need cross-tab sync. Or you are building a multi-server app. Same events, different plumbing.
+<br></br></p>
+<div class="mermaid">
+  flowchart TD
+  A[Your Code] --> B[RouteBus]
+  B --> C{Transport}
+  C --> D[In-Memory]
+  C --> E[BroadcastChannel]
+  C --> F[Redis]
+  D --> G[Same Process]
+  E --> H[All Browser Tabs]
+  F --> I[All Servers]
+</div>
+<p><br></br></p>
+<p><strong>BroadcastChannel</strong> for browser tabs:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> { createRouteBus, createBroadcastChannelTransport } <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;routebus&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> bus <span style="color:#ff7b72;font-weight:bold">=</span> createRouteBus&lt;<span style="color:#7ee787">AppEvents</span>&gt;({
+</span></span><span style="display:flex;"><span>  transport: <span style="color:#ff7b72">createBroadcastChannelTransport</span>&lt;<span style="color:#7ee787">AppEvents</span>&gt;({
+</span></span><span style="display:flex;"><span>    channelName<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;my-app-events&#39;</span>,
+</span></span><span style="display:flex;"><span>  }),
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Emit in one tab, all tabs receive it
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>bus.emit(<span style="color:#a5d6ff">&#34;counter:update&#34;</span>, { value: <span style="color:#ff7b72">42</span> });
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p><strong>Redis</strong> for distributed systems:</p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> { createRouteBus, createRedisTransport } <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;routebus&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> Redis <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;ioredis&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> bus <span style="color:#ff7b72;font-weight:bold">=</span> createRouteBus&lt;<span style="color:#7ee787">AppEvents</span>&gt;({
+</span></span><span style="display:flex;"><span>  transport: <span style="color:#ff7b72">createRedisTransport</span>&lt;<span style="color:#7ee787">AppEvents</span>&gt;({
+</span></span><span style="display:flex;"><span>    redisClient: <span style="color:#ff7b72">new</span> Redis(),
+</span></span><span style="display:flex;"><span>    channelPrefix<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;myapp:&#39;</span>,
+</span></span><span style="display:flex;"><span>  }),
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Events now work across all connected processes
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>bus.on(<span style="color:#a5d6ff">&#34;task:created&#34;</span>, (payload) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> processTask(payload));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Same <code>bus.on</code>, same <code>bus.emit</code>. The transport handles where the events actually go.
+<br></br></p>
+<hr>
+<h2 id="type-safety-that-catches-things">Type safety that catches things</h2>
+<p>This is the part I cared about most.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> Events <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a5d6ff">&#34;save&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> { id: <span style="color:#ff7b72">string</span> };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> bus <span style="color:#ff7b72;font-weight:bold">=</span> createRouteBus&lt;<span style="color:#7ee787">Events</span>&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bus.emit(<span style="color:#a5d6ff">&#34;save&#34;</span>, { id<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;123&#34;</span> }); <span style="color:#8b949e;font-style:italic">// ✓
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>bus.emit(<span style="color:#a5d6ff">&#34;save&#34;</span>, { id: <span style="color:#ff7b72">123</span> });   <span style="color:#8b949e;font-style:italic">// ✗ Error: id must be string
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>bus.emit(<span style="color:#a5d6ff">&#34;load&#34;</span>, { id<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;123&#34;</span> }); <span style="color:#8b949e;font-style:italic">// ✗ Error: &#34;load&#34; is not a valid event
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Event names autocomplete in the editor. Invalid payloads fail at compile time. No more &quot;why is this undefined&quot; debugging sessions.
+<br></br></p>
+<hr>
+<h2 id="event-queuing">Event queuing</h2>
+<p>Sometimes you do not want to emit immediately. Batch processing, debouncing, whatever.
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">const</span> item <span style="color:#ff7b72">of</span> largeDataset) {
+</span></span><span style="display:flex;"><span>  bus.enqueue(<span style="color:#a5d6ff">&#34;data:process&#34;</span>, item);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Process in batches
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>bus.drain((event, payload) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  database.insert(payload);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p><code>enqueue</code> buffers the events. <code>drain</code> processes them with whatever logic you want. Simple, but it covers most of the cases where I would otherwise reach for a queue library.
+<br></br></p>
+<hr>
+<h2 id="custom-transports">Custom transports</h2>
+<p>If the built-in transports do not fit, you can write your own:
+<br></br></p>
+<div class="highlight"><div style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#737679">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">type</span> { Transport, EventHandler } <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">&#39;routebus&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> createMyTransport&lt;<span style="color:#7ee787">T</span> extends Record<span style="color:#f85149">&lt;</span>string<span style="color:#f85149">,</span> any&gt;<span style="color:#ff7b72;font-weight:bold">&gt;</span>()<span style="color:#ff7b72;font-weight:bold">:</span> Transport&lt;<span style="color:#7ee787">T</span>&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">async</span> publish&lt;<span style="color:#7ee787">K</span> extends keyof T&gt;(event: <span style="color:#ff7b72">K</span>, payload: <span style="color:#ff7b72">T</span>[K]) {
+</span></span><span style="display:flex;"><span>      <span style="color:#8b949e;font-style:italic">// Send the event somewhere
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    },
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    subscribe&lt;<span style="color:#7ee787">K</span> extends keyof T&gt;(event: <span style="color:#ff7b72">K</span>, handler: <span style="color:#ff7b72">EventHandler</span>&lt;<span style="color:#7ee787">T</span><span style="color:#f85149">[</span>K<span style="color:#f85149">]</span>&gt;) {
+</span></span><span style="display:flex;"><span>      <span style="color:#8b949e;font-style:italic">// Listen for events, return unsubscribe function
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>      <span style="color:#ff7b72">return</span> () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> { <span style="color:#8b949e;font-style:italic">/* cleanup */</span> };
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    close() {
+</span></span><span style="display:flex;"><span>      <span style="color:#8b949e;font-style:italic">// Optional cleanup
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    },
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><br></br></p>
+<p>Three methods. That is the whole interface. I have used this to wire up WebSocket connections and custom message queues without touching the rest of the app.
+<br></br></p>
+<hr>
+<h2 id="what-i-actually-use-it-for">What I actually use it for</h2>
+<p><strong>UI state sync across tabs.</strong> User logs in on one tab, all tabs update. No localStorage polling.
+<br></br></p>
+<p><strong>Decoupling modules.</strong> Instead of direct imports, modules just emit and listen. Easier to test, easier to swap things out.
+<br></br></p>
+<p><strong>Microservice communication.</strong> Same event definitions shared across services. Redis transport underneath. Type safety end to end.
+<br></br></p>
+<hr>
+<h2 id="the-tradeoffs">The tradeoffs</h2>
+<p>It is zero dependencies and tree-shakeable, but it is not trying to be a full message queue. No persistence, no guaranteed delivery, no dead letter queues. If you need that, use an actual message broker.
+<br></br></p>
+<p>But for the 90% of cases where you just need &quot;thing happened, other things should know&quot;, this is the tool I reach for now.
+<br></br></p>
+<hr>
+<h2 id="links">Links</h2>
+<p>RouteBus: <a href="https://github.com/Cr0wn-Gh0ul/RouteBus">https://github.com/Cr0wn-Gh0ul/RouteBus</a><br>
+npm: <a href="https://www.npmjs.com/package/routebus">https://www.npmjs.com/package/routebus</a></p>
+
+    </div>
+    
+    
+    <nav class="post-navigation" style="display: flex; justify-content: space-between; gap: 2em; margin-top: 2em;">
+        <div class="nav-prev">
+            
+            ← <a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-08-20/">Milford ride</a>
+            
+        </div>
+        <div class="nav-next" style="margin-left:auto;">
+            
+            <a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-01/">C64: Lost Signal</a> →
+            
+        </div>
+    </nav>
+    
+</article>
+
+        </main>
+        
+    </div>
+    <footer class="site-footer"
+  style="flex-shrink:0;left:0;right:0;margin:0 auto;padding:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace;font-size:12px;color:#8a8a9c;height:44px;text-align:center;z-index:1000;width:100%;background:none;box-shadow:none;position:relative;">
+  <a href="#" id="scrollTop"
+    style="margin-left:16px;margin-right:auto;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;color:#4ade5e;text-decoration:none;opacity:.6;transition:opacity 0.2s;cursor:pointer;flex-shrink:0;">↑</a>
+  <p style="width:100%;text-align:center;margin:0;">© 2026 Cr0wn_Gh0ul</p>
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      const scrollTop = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          scrollTop.style.opacity = '1';
+          scrollTop.style.pointerEvents = 'auto';
+        } else {
+          scrollTop.style.opacity = '0.6';
+          scrollTop.style.pointerEvents = 'auto';
+        }
+      });
+      scrollTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.2/+esm'
+
+function getMermaidConfigFromTheme() {
+  const styles = getComputedStyle(document.documentElement);
+  const cssVar = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+
+  const backgroundPrimary = cssVar("--bg-primary", "#1b1b1f");
+  const backgroundSecondary = cssVar("--bg-secondary", "#09090a");
+
+  const blue = cssVar("--blue", "#5cb8ff");
+  const red = cssVar("--red", "#ff7070");
+  const green = cssVar("--green", "#4ade5e");
+
+  const fontMono = cssVar("--font-mono", "JetBrains Mono, SF Mono, Consolas, monospace");
+
+  return {
+    theme: "base",
+    themeVariables: {
+      darkMode: true,
+      fontFamily: fontMono,
+      fontSize: "14px",
+      background: backgroundPrimary,
+
+      primaryColor: blue,
+      primaryTextColor: "#000",
+
+      lineColor: red,
+      textColor: green,
+      edgeLabelBackground: backgroundSecondary,
+      titleColor: green,
+    },
+
+    themeCSS: `
+      /* Nodes (flowchart + generic) */
+      .node rect, .node polygon, .node circle, .node path {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .node text, .node tspan {
+        fill: #000 !important;
+      }
+
+      /* State diagram nodes */
+      .statediagram-state rect, .stateGroup rect {
+        fill: ${blue} !important;
+        stroke: ${blue} !important;
+        stroke-width: 2px !important;
+      }
+      .statediagram-state text, .statediagram-state tspan,
+      .stateGroup text, .stateGroup tspan {
+        fill: #000 !important;
+      }
+
+      /* Arrows / edges */
+      .edgePath path {
+        stroke: ${red} !important;
+        stroke-width: 1.75px !important;
+      }
+      marker path {
+        stroke: ${red} !important;
+        fill: ${red} !important;
+      }
+
+      /* Edge labels (arrow text) */
+      .edgeLabel rect {
+        fill: ${backgroundSecondary} !important;
+        stroke: ${red} !important;
+        stroke-width: 1px !important;
+      }
+      .edgeLabel text, .edgeLabel tspan,
+      .edgeLabel span, .edgeLabel p,
+      .edgeLabel foreignObject *,
+      .label text, .label tspan {
+        fill: ${green} !important;
+        color: ${green} !important;
+      }
+    `,
+  };
+}
+
+    function renderAllMermaid() {
+      const mermaidConfig = getMermaidConfigFromTheme();
+      mermaid.initialize({
+        startOnLoad: true,
+        ...mermaidConfig,
+      });
+      mermaid.run({ querySelector: ".mermaid" });
+      document.querySelectorAll('pre.mermaid, .mermaid').forEach(block => {
+        mermaid.run({ nodes: [block] });
+      });
+    }
+    renderAllMermaid();
+    
+    const observer = new MutationObserver(() => {
+      renderAllMermaid();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+  
+</footer>
+</body>
+</html>
+

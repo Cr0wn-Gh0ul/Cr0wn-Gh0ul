@@ -6,8 +6,15 @@
     <description>Recent content on Troy Salem Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenRouter: Deep Dive</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/</link>
+      <pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-06/</guid>
+      <description>Why? I have been jumping between AI models a lot lately. Claude for some things. GPT for others. Gemini when I want to see if Google figured it out yet. Llama when I want something local-ish. And every time I switch, it is a different SDK, different auth, different request shape, different &amp;quot;why is this field named slightly differently&amp;quot; moment. At some point I found OpenRouter and ended up going pretty deep.</description>
+    </item>
     <item>
       <title>BreakerKit: Circuit Breaker Pattern </title>
       <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-01-06/</link>
@@ -23,11 +30,25 @@
       <description>The story of how I got into tech is a little unconventional and very personal, but it feels like something I need to share. Maybe it gives someone a spark. Maybe it’s just a solid late night read. I won’t run through my whole life, but I do need to start where the picture is honest. I came from a lower income family and life was complicated. In 10th grade I dropped out of high school.</description>
     </item>
     <item>
+      <title>PhaseState: Minimal State Machine</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-16/</link>
+      <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-16/</guid>
+      <description>State machines are one of those patterns that sound academic until you actually need one. A form wizard with validation between steps. A connection that can be connecting, connected, disconnecting, or error. A game character that can be idle, walking, jumping, or dead, and dead should not transition to jumping. Every time I reach for a state machine library, I end up fighting it. Too much boilerplate, weird DSL, or a 50KB bundle for something that should be simple.</description>
+    </item>
+    <item>
       <title>C64: Lost Signal</title>
       <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-01/</link>
       <pubDate>Mon, 01 Dec 2025 00:00:00 +0000</pubDate>
       <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-12-01/</guid>
       <description>About A digital escape room experience set in the retro aesthetic of a Commodore 64 computer. Navigate through cryptographic puzzles, hidden messages, and retro computing challenges to uncover the lost signal.&#xA;Play Here&#xA;The Signal You haul a beige relic out of an abandoned office, dust in the vents, a coffee ring fossilized on its case. It&#39;s a Commodore 64, the once faithful terminal of a NASA communications researcher, late 1980s.</description>
+    </item>
+    <item>
+      <title>RouteBus: Type-Safe Event Bus</title>
+      <link>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2025-11-12/</guid>
+      <description>I keep writing the same pub/sub code in every project. A thing happens. Other things need to know. So I create an event emitter. Then I realize I want type safety. Then I need it to work across browser tabs. Then across services. Then I am maintaining three different implementations that do almost the same thing. So I built RouteBus to stop doing that. The idea One event bus interface. Pluggable transports underneath.</description>
     </item>
     <item>
       <title>Milford ride</title>
