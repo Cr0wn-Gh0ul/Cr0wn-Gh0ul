@@ -9,14 +9,14 @@
     
     <link rel="icon" type="image/png" href="/Cr0wn-Gh0ul/img/ghost-crown.png">
     
-    <meta property="og:title" content="ScryPanel" />
+    <meta property="og:title" content="Browser Sage" />
     <meta property="og:description" content="Troy Salem Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-02-26/" />
     <meta property="og:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ScryPanel" />
+    <meta name="twitter:title" content="Browser Sage" />
     <meta name="twitter:description" content="Troy Salem Blog" />
     <meta name="twitter:image" content="/Cr0wn-Gh0ul/img/ghost-crown.png" />
     <link rel="stylesheet" href="/Cr0wn-Gh0ul/css/style.css">
@@ -73,7 +73,7 @@
             
 <article class="single-post">
     <header>
-        <h1>ScryPanel</h1>
+        <h1>Browser Sage</h1>
         <div class="post-meta">
             February 26, 2026
              · T. Salem
@@ -95,7 +95,7 @@
     <div class="content">
         <p>Got tired of copy-pasting articles into ChatGPT. So I made a Chrome side panel that does it for me.
 <br></br></p>
-<p><a href="https://github.com/Cr0wn-Gh0ul/ScryPanel">ScryPanel</a> sits in your browser's side panel. Click it, pick what you want (summary, analysis, chat), and it pulls the page content and sends it to whatever model you want through OpenRouter.
+<p><a href="https://github.com/Cr0wn-Gh0ul/BrowserSage">Browser Sage</a> sits in your browser's side panel. Click it, pick what you want (summary, analysis, chat, verify), and it pulls the page content and sends it to whatever model you want through OpenRouter.
 <br></br></p>
 <p>The whole point of using OpenRouter is model choice. Not locked into GPT-4 or Claude. You get access to 600+ models, swap between them in settings, compare outputs. Want to run the same page through Llama, Mistral, and Claude to see who hallucinates less? Go for it.
 <br></br></p>
@@ -122,49 +122,66 @@
 <p>Content script grabs the page text. Side panel builds the prompt. Background worker holds your API key and makes the actual call. Nothing clever, just clean separation so your key never touches the page context.
 <br></br></p>
 <hr>
-<h2 id="the-modes">The Modes</h2>
-<p><strong>Chat</strong> — Talk to the page. Ask follow-ups. It keeps context across turns.</p>
-<p><strong>Summary</strong> — TL;DR, key points, and a list of what the article doesn't cover.</p>
-<p><strong>Analysis</strong> — Pulls out claims, flags weak reasoning, suggests questions worth asking.</p>
-<p><strong>Signals</strong> — Runs some heuristics for AI-written text. Not a detector, just indicators.
+<h2 id="features">Features</h2>
+<h3 id="chat">Chat</h3>
+<p>Multi-turn conversation about the current page. Ask follow-ups, dig deeper into specific sections, or just have a discussion about what you're reading. Context persists across turns so the model remembers what you've already talked about.
+<br></br></p>
+<h3 id="summary">Summary</h3>
+<p>Generate a TL;DR of the page along with key points. Also identifies what's missing — gaps in the article's coverage, questions left unanswered, topics briefly mentioned but not explored.
+<br></br></p>
+<h3 id="analysis">Analysis</h3>
+<p>Extract claims from the content and identify weak spots in the reasoning. Flags unsupported assertions, logical inconsistencies, and suggests follow-up questions worth investigating.
+<br></br></p>
+<h3 id="signals">Signals</h3>
+<p>Detect AI-writing patterns in the text. These are indicators, not verdicts — heuristics that flag stylistic markers commonly associated with AI-generated content. Take them as data points, not conclusions.
+<br></br></p>
+<h3 id="verify">Verify</h3>
+<p>Fact-check claims made in the article. Assesses source credibility based on available information and generates cross-reference search queries you can use to validate claims independently.
+<br></br></p>
+<h3 id="usage-tracking">Usage Tracking</h3>
+<p>Monitor your token usage and OpenRouter credits directly in the extension. Keep an eye on costs without leaving the browser.
 <br></br></p>
 <hr>
 <h2 id="screenshots">Screenshots</h2>
-<img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-17-14_hu17435421212256489280.png" 
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-1_hu18230169342577762122.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Chat">
-<img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-17-41_hu9393579266775498720.png" 
+       height="500" 
+       alt="Browser Sage Chat">
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-2_hu11912776919380395691.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Summary">
-<img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-17-59_hu9649034472853207297.png" 
+       height="500" 
+       alt="Browser Sage Summary">
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-3_hu3482098458993119798.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Analysis">
-<img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-21-05_hu13476854076739086431.png" 
+       height="500" 
+       alt="Browser Sage Analysis">
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-4_hu8375415777814670226.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Signals">
-<img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-26-00_hu17090091345842516994.png" 
+       height="500" 
+       alt="Browser Sage Signals">
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-5_hu2374643758000778581.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Settings">
-<p><img src="/Cr0wn-Gh0ul/scrypanel/Screenshot%20From%202026-02-26%2015-27-45_hu595134997924811681.png" 
+       height="500" 
+       alt="Browser Sage Verify">
+<img src="/Cr0wn-Gh0ul/browserSage/screenshot-6_hu6567968194596298363.png" 
        width="800" 
-       height="505" 
-       alt="ScryPanel Usage">
+       height="500" 
+       alt="Browser Sage Settings">
+<p><img src="/Cr0wn-Gh0ul/browserSage/screenshot-7_hu12343486749048793643.png" 
+       width="800" 
+       height="500" 
+       alt="Browser Sage Usage">
 <br></br></p>
 <hr>
 <h2 id="stack">Stack</h2>
-<p>React, TypeScript, TailwindCSS, Vite. Uses <code>@openrouter/sdk</code> for the API calls. Manifest V3 because Chrome made us.
+<p>React 18, TypeScript, TailwindCSS, Vite. Uses <code>@openrouter/sdk</code> for the API calls. Manifest V3 because Chrome made us.
 <br></br></p>
 <hr>
 <h2 id="security-note">Security Note</h2>
 <p>Your API key lives in <code>chrome.storage.local</code>. Content scripts can't see it. Only the background service worker touches the network. Page content goes out, responses come back, key stays safe.
 <br></br></p>
 <hr>
-<p><a href="https://github.com/Cr0wn-Gh0ul/ScryPanel">GitHub</a></p>
+<h2 id="github-linkhttpsgithubcomcr0wn-gh0ulbrowsersage"><a href="https://github.com/Cr0wn-Gh0ul/BrowserSage">GitHub Link</a></h2>
 
     </div>
     
