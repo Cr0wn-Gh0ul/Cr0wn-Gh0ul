@@ -22,7 +22,7 @@ theme = 'cr0wngh0ul-theme'
 [menu]
   [[menu.main]]
     name = 'Home'
-    url = '/Cr0wn-Gh0ul/'
+    url = '/'
     pageRef = '/Cr0wn-Gh0ul/'
     identifier = 'home'
     weight = 1
