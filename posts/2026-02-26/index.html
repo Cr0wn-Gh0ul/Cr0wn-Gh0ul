@@ -34,7 +34,7 @@
             <li>
                 
                 
-                <a href="/Cr0wn-Gh0ul/cr0wn-gh0ul/" >
+                <a href="/Cr0wn-Gh0ul/" >
                     ./home
                     
                 </a>
@@ -194,6 +194,8 @@
         </div>
         <div class="nav-next" style="margin-left:auto;">
             
+            <a href="https://cr0wn-gh0ul.github.io/Cr0wn-Gh0ul/posts/2026-03-26/">PackChat: Motorcycle intercom app I needed and built</a> →
+            
         </div>
     </nav>
     
@@ -236,15 +238,19 @@ function getMermaidConfigFromTheme() {
 
   const backgroundPrimary = cssVar("--bg-primary", "#1b1b1f");
   const backgroundSecondary = cssVar("--bg-secondary", "#09090a");
+  const textPrimary = cssVar("--text-primary", "#ffffff");
+  const textSecondary = cssVar("--text-secondary", "#e8eaec");
+  const border = cssVar("--border", "#2e2e3a");
 
   const blue = cssVar("--blue", "#5cb8ff");
-  const red = cssVar("--red", "#ff7070");
-  const green = cssVar("--green", "#4ade5e");
 
   const fontMono = cssVar("--font-mono", "JetBrains Mono, SF Mono, Consolas, monospace");
 
   return {
     theme: "base",
+    xyChart: {
+      backgroundColor: backgroundSecondary,
+    },
     themeVariables: {
       darkMode: true,
       fontFamily: fontMono,
@@ -252,75 +258,123 @@ function getMermaidConfigFromTheme() {
       background: backgroundPrimary,
 
       primaryColor: blue,
-      primaryTextColor: "#000",
+      primaryTextColor: textPrimary,
+      secondaryColor: backgroundSecondary,
+      secondaryTextColor: textPrimary,
 
-      lineColor: red,
-      textColor: green,
+      lineColor: textSecondary,
+      textColor: textSecondary,
       edgeLabelBackground: backgroundSecondary,
-      titleColor: green,
+      titleColor: textPrimary,
+      border1: border,
+      border2: border,
+
+      xyChart: {
+        backgroundColor: backgroundSecondary,
+        titleColor: textPrimary,
+        xAxisTitleColor: textSecondary,
+        xAxisLabelColor: textSecondary,
+        xAxisTickColor: textSecondary,
+        xAxisLineColor: textSecondary,
+        yAxisTitleColor: textSecondary,
+        yAxisLabelColor: textSecondary,
+        yAxisTickColor: textSecondary,
+        yAxisLineColor: textSecondary,
+        plotColorPalette: "#5cb8ff,#4ade5e,#ffb454,#ff7070,#f08cff,#7dd3fc,#a3e635,#f59e0b,#f97316,#22d3ee"
+      },
     },
 
     themeCSS: `
-      /* Nodes (flowchart + generic) */
-      .node rect, .node polygon, .node circle, .node path {
-        fill: ${blue} !important;
-        stroke: ${blue} !important;
-        stroke-width: 2px !important;
-      }
-      .node text, .node tspan {
-        fill: #000 !important;
+      .mermaid svg {
+        background-color: ${backgroundSecondary} !important;
       }
 
-      /* State diagram nodes */
-      .statediagram-state rect, .stateGroup rect {
-        fill: ${blue} !important;
-        stroke: ${blue} !important;
-        stroke-width: 2px !important;
-      }
-      .statediagram-state text, .statediagram-state tspan,
-      .stateGroup text, .stateGroup tspan {
-        fill: #000 !important;
-      }
-
-      /* Arrows / edges */
-      .edgePath path {
-        stroke: ${red} !important;
-        stroke-width: 1.75px !important;
-      }
-      marker path {
-        stroke: ${red} !important;
-        fill: ${red} !important;
-      }
-
-      /* Edge labels (arrow text) */
-      .edgeLabel rect {
+      .mermaid .background,
+      .mermaid .plot-background,
+      .mermaid rect.background {
         fill: ${backgroundSecondary} !important;
-        stroke: ${red} !important;
-        stroke-width: 1px !important;
       }
+
+      .mermaid svg rect[fill="#fff"],
+      .mermaid svg rect[fill="#ffffff"],
+      .mermaid svg rect[fill="white"] {
+        fill: ${backgroundSecondary} !important;
+      }
+
+      .mermaid text,
+      .mermaid tspan {
+        fill: ${textSecondary} !important;
+      }
+
       .edgeLabel text, .edgeLabel tspan,
       .edgeLabel span, .edgeLabel p,
       .edgeLabel foreignObject *,
       .label text, .label tspan {
-        fill: ${green} !important;
-        color: ${green} !important;
+        fill: ${textPrimary} !important;
+        color: ${textPrimary} !important;
       }
     `,
   };
 }
 
-    function renderAllMermaid() {
-      const mermaidConfig = getMermaidConfigFromTheme();
-      mermaid.initialize({
-        startOnLoad: true,
-        ...mermaidConfig,
-      });
-      mermaid.run({ querySelector: ".mermaid" });
-      document.querySelectorAll('pre.mermaid, .mermaid').forEach(block => {
-        mermaid.run({ nodes: [block] });
+    const mermaidConfig = getMermaidConfigFromTheme();
+    mermaid.initialize({
+      startOnLoad: false,
+      ...mermaidConfig,
+    });
+
+    function normalizeChartBackgrounds() {
+      document.querySelectorAll('.mermaid svg').forEach((svg) => {
+        const svgBox = svg.getBoundingClientRect();
+        const svgW = svgBox.width || Number.parseFloat(svg.getAttribute('width') || '0');
+        const svgH = svgBox.height || Number.parseFloat(svg.getAttribute('height') || '0');
+
+        let largestCanvasRect = null;
+        let largestArea = 0;
+
+        svg.querySelectorAll('rect').forEach((rect) => {
+          const fill = (rect.getAttribute('fill') || '').trim().toLowerCase();
+          const style = (rect.getAttribute('style') || '').toLowerCase();
+          const width = Number.parseFloat(rect.getAttribute('width') || '0');
+          const height = Number.parseFloat(rect.getAttribute('height') || '0');
+          const area = width * height;
+
+          const isTransparent =
+            fill === 'none' ||
+            fill === 'transparent' ||
+            style.includes('fill:none') ||
+            style.includes('fill: none') ||
+            style.includes('fill:transparent') ||
+            style.includes('fill: transparent');
+
+          
+          const likelyCanvasRect =
+            (svgW > 0 && svgH > 0 && width >= svgW * 0.6 && height >= svgH * 0.6) ||
+            (width >= 120 && height >= 120);
+
+          if (!isTransparent && likelyCanvasRect && area > largestArea) {
+            largestArea = area;
+            largestCanvasRect = rect;
+          }
+        });
+
+        
+        if (largestCanvasRect) {
+          largestCanvasRect.setAttribute('fill', backgroundSecondary);
+          largestCanvasRect.style.fill = backgroundSecondary;
+        }
       });
     }
+
+    async function renderAllMermaid() {
+      const pending = Array.from(document.querySelectorAll('.mermaid:not([data-processed])'));
+      if (!pending.length) return;
+      await mermaid.run({ nodes: pending });
+      normalizeChartBackgrounds();
+    }
+
     renderAllMermaid();
+
     
     const observer = new MutationObserver(() => {
       renderAllMermaid();
