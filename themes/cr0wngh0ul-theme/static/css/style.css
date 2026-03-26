@@ -4,10 +4,52 @@
   border-radius: 8px;
   padding: 14px;
   overflow-x: auto;
+    margin: 18px 0;
 }
 
 .mermaid svg {
+    display: block;
+    min-width: 680px;
   height: auto;
+}
+
+.content table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid var(--border);
+        margin: 18px 0;
+        background: var(--bg-secondary);
+    table-layout: auto;
+}
+
+.content thead {
+        background: var(--bg-tertiary);
+}
+
+.content th,
+.content td {
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+    word-break: normal;
+}
+
+.content th {
+        color: var(--green);
+        font-weight: 700;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    hyphens: none;
+}
+
+.content td {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.content tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.02);
 }
 
 /* Clean, consistent list alignment for markdown content and blockquotes */
